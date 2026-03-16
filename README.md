@@ -196,10 +196,22 @@
 
 ## 安装方式
 
-### 方式一：Plugin 安装（推荐）
+### 方式一：Marketplace 安装（推荐）
+
+两步完成。第一步注册 marketplace，第二步安装插件：
 
 ```bash
-claude plugin add -- https://github.com/sinnohzeng/zen-yang-xie-zuo
+# 第一步：注册 marketplace（只需执行一次）
+claude plugin marketplace add https://github.com/sinnohzeng/zen-yang-xie-zuo.git
+
+# 第二步：安装插件
+claude plugin install writing-polish@zen-yang-xie-zuo
+```
+
+后续更新只需一条命令：
+
+```bash
+claude plugin update writing-polish@zen-yang-xie-zuo
 ```
 
 ### 方式二：手动复制
@@ -211,12 +223,18 @@ git clone https://github.com/sinnohzeng/zen-yang-xie-zuo.git
 cp -r zen-yang-xie-zuo/skills/writing-polish ~/.claude/skills/
 ```
 
-### 方式三：本地开发模式
+这种方式不支持自动更新，需要手动拉取新版本后重新复制。
+
+### 方式三：符号链接（本地开发）
+
+适合需要修改和调试技能的开发者：
 
 ```bash
 git clone https://github.com/sinnohzeng/zen-yang-xie-zuo.git
-claude --plugin-dir ./zen-yang-xie-zuo
+ln -s $(pwd)/zen-yang-xie-zuo/skills/writing-polish ~/.claude/skills/writing-polish
 ```
+
+这种方式下，对仓库的修改会立即生效，无需重新安装。
 
 ### 前置依赖（可选）
 

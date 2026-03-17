@@ -33,3 +33,7 @@ Desktop.ini
 
 # 原始参考文档
 《怎样写作》任仲然.md
+
+# 测试文件
+test/
+firebase-debug.log

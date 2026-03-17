@@ -32,7 +32,7 @@
 ## 二、环境准备
 
 ```bash
-# 必需
+# 必需（docx-editor 需要 Python 3.10+）
 pip install docx-editor python-docx
 
 # 读取和验证
@@ -41,6 +41,15 @@ apt install pandoc     # Ubuntu/Debian
 ```
 
 如果 `docx-editor` 未安装，提示用户执行上述命令后重试。
+
+**Python 版本注意**：docx-editor 需要 Python 3.10 或更高版本。macOS 系统自带的 Python 通常是 3.9，不满足要求。解决方法：
+
+```bash
+brew install python@3.12
+python3.12 -m venv /tmp/docx_env
+source /tmp/docx_env/bin/activate
+pip install docx-editor python-docx
+```
 
 ---
 
@@ -143,6 +152,27 @@ with Document.open("reviewed.docx", author=author) as doc:
     doc.save()
 ```
 
+### 3.6 长段落替换的 Workaround
+
+docx-editor v0.1.x 存在一个已知问题：当段落文本集中在单个 Run（单个 `w:t` 节点包含大量文本）时，`replace()` 方法可能抛出 `TextNotFoundError`，即使 `count_matches()` 能找到目标文本。
+
+原因是 `replace()` 内部的 `_get_nth_match` 方法找到了包含目标文本的 `w:t` 节点，但随后检查 `elem.firstChild.data` 时，直接文本可能只有 1 个字符（Word 内部的 XML 结构导致），从而误判为文本不存在。
+
+**解决方案**：使用内部方法直接操作。
+
+```python
+def safe_replace(doc, old_text, new_text, occurrence=0):
+    """replace() 的稳健替代，绕过长段落 bug。"""
+    rm = doc._revision_manager
+    match = rm._find_across_boundaries(old_text, occurrence)
+    if match is None:
+        return False  # 文本确实不存在
+    rm._replace_across_nodes(match, new_text)
+    return True
+```
+
+建议在所有编辑脚本中用 `safe_replace` 替代 `doc.replace()`，直到 docx-editor 修复此问题。
+
 ---
 
 ## 四、验证工作流
@@ -234,6 +264,8 @@ doc.replace("更精确的上下文文本", "替换文本")
 | `docx-editor` 未安装 | `pip install docx-editor python-docx` |
 | `TextNotFoundError` | 用 `count_matches()` 确认文本存在；用 `get_visible_text()` 查看可见文本 |
 | 编辑出现在错误位置 | `reject_revision()` 撤销，用更长的上下文重新定位 |
+| `replace()` 在长段落中失败 | 使用 `_find_across_boundaries()` + `_replace_across_nodes()` 绕过（见 3.6 节） |
+| Python 版本不满足要求 | docx-editor 需要 Python 3.10+，macOS 默认 3.9 需 `brew install python@3.12` 后用 `python3.12 -m venv` |
 
 ---
 

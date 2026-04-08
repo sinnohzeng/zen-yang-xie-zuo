@@ -1,19 +1,16 @@
 ---
 name: writing-polish
 description: >
-  Reviews, polishes, revises, and assists in writing Chinese documents based on professional
-  methodology from 《怎样写作》(任仲然). Trigger when the user wants to review, polish,
-  improve, revise, or write any text content including articles, speeches, reports, essays,
-  or social media posts. Also trigger on: "润色", "修改文稿", "审稿", "改稿", "帮我看看这篇文章",
-  "优化一下", "文稿优化", "写作审查", "帮我写", "帮我起草", "搭个提纲", "DOCX 修订",
-  "修改 Word 文档", "修订模式编辑", "用修订模式润色", "polish this", "review my writing",
-  "improve this draft", "edit this", "proofread", "check my writing", "make this better",
-  "redline this document", "Track Changes", "edit this docx", "help me write", "draft this",
-  "write an outline". Works with any language, any genre, and any format including Markdown,
-  DOCX, and plain text. Covers writing assistance (from outlining to drafting), light polish,
-  and deep structural revision. When editing DOCX files, defaults to Track Changes with
-  author "任仲然", both configurable by user.
-  Do NOT trigger for translation tasks, code review, or data analysis.
+  Assists writing, reviewing, polishing, and revising Chinese documents based on 《怎样写作》(任仲然).
+  Triggers on: "润色", "审稿", "改稿", "帮我写", "帮我起草", "搭个提纲", "polish this",
+  "review my writing", "help me write", "draft this", "write an outline", "proofread",
+  "DOCX 修订", "修改 Word 文档", "用修订模式润色".
+  Supports 7 genres: 公文, 讲话稿, 调研报告, 述职报告, 汇报发言稿, 随笔杂文, 自媒体.
+  Handles Markdown, DOCX (Track Changes, author "任仲然"), and plain text.
+  Three modes: writing assistance, light polish, deep structural revision.
+  Removes AI writing fingerprints. Does NOT trigger for translation, code review, or data analysis.
+effort: max
+paths: "**/*.docx, **/*.md, **/*.txt"
 ---
 
 # 写作润色审稿

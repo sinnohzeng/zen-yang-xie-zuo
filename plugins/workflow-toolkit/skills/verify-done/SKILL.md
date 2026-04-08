@@ -1,11 +1,17 @@
 ---
 name: verify-done
 description: >
-  Use when about to claim work is complete. Runs verification, then applies
-  a senior engineer review lens on top of superpowers:verification-before-completion.
+  Verifies work completion by running tests, lint, and build, then applies
+  a senior engineer review lens before marking tasks as done.
+  验证完成度。
 argument-hint: "[检查范围，如：只检查 API 层]"
 disable-model-invocation: false
+effort: max
 ---
+
+## Context
+
+- Build system: !`ls package.json Makefile pyproject.toml Cargo.toml 2>/dev/null`
 
 ## Task
 

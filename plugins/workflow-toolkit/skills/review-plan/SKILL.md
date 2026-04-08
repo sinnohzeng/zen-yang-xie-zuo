@@ -1,8 +1,9 @@
 ---
 name: review-plan
 description: >
-  Use when an implementation plan has been created or updated and needs quality review
-  before execution. Reviews from UX, frontend engineering, and architecture perspectives.
+  Reviews implementation plans from UX, frontend engineering, and architecture perspectives.
+  Iterates up to 3 rounds until no major issues remain.
+  三视角评审计划。
 argument-hint: "[评审焦点，如：性能、可维护性、安全性]"
 disable-model-invocation: false
 effort: max

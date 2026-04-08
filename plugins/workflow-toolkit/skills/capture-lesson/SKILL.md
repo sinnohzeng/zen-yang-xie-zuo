@@ -1,10 +1,12 @@
 ---
 name: capture-lesson
 description: >
-  Use when a correction, rework, or unexpected issue just occurred and the lesson
-  should be captured immediately. Records what went wrong, root cause, and prevention.
+  Records post-mortem lessons after corrections, rework, or unexpected issues.
+  Captures what went wrong, root cause, and prevention measures.
+  微复盘：记录教训和预防措施。
 argument-hint: "[发生了什么，如：API 字段命名错误导致返工]"
 disable-model-invocation: false
+effort: medium
 ---
 
 ## Task

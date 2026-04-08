@@ -1,10 +1,12 @@
 ---
 name: save-plan
 description: >
-  Use when the current session has produced a work plan that should be persisted
-  to the project's docs/plans/ directory for version control and future reference.
+  Persists the current work plan to docs/plans/YYYY-MM-DD-slug.md for version control
+  and future reference.
+  保存计划到文档。
 argument-hint: "[计划标题，如：用户认证重构]"
 disable-model-invocation: true
+effort: low
 ---
 
 ## Task

@@ -19,8 +19,8 @@
       "name": "workflow-toolkit",
       "source": "./plugins/workflow-toolkit/",
       "description": "Developer workflow skills: commit, doc sync, plan review, CI tracking, and more.",
-      "version": "1.0.0",
-      "keywords": ["workflow", "commit", "ci", "documentation", "review"],
+      "version": "2.0.0",
+      "keywords": ["workflow", "commit", "ci", "documentation", "review", "提交", "同步", "复盘", "收尾", "pinyin"],
       "category": "developer-tools"
     }
   ]

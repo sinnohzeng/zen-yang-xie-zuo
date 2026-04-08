@@ -4,8 +4,8 @@ Personal Claude Code skill collection. Two plugins, one marketplace.
 
 | Plugin | Skills | Description |
 |--------|--------|-------------|
-| **writing-polish** | 1 | Professional writing assistance based on 《怎样写作》(任仲然) |
-| **workflow-toolkit** | 9 | Developer workflow skills: commit, doc sync, plan review, CI, and more |
+| **writing-polish** | 1 (+1 pinyin) | Professional writing assistance based on 《怎样写作》(任仲然) |
+| **workflow-toolkit** | 9 (+8 pinyin) | Developer workflow skills: commit, doc sync, plan review, CI, and more |
 
 ## Quick Start
 
@@ -38,17 +38,19 @@ Developer workflow skills for daily Claude Code interactions. Covers the full se
 
 ### Skills
 
-| Skill | Usage | Auto-trigger | Description |
-|-------|-------|:---:|-------------|
-| `/commit` | `/commit [说明]` | No | Commit + push with Chinese Conventional Commits, optional SemVer tag |
-| `/sync-docs` | `/sync-docs [范围]` | **Yes** | Sync docs and memory per DDD + SSOT principles |
-| `/ddd` | `/ddd [范围]` | No | Alias for `/sync-docs` (keyboard shortcut) |
-| `/review-plan` | `/review-plan [焦点]` | **Yes** | Review plan from UX, frontend, architecture perspectives. Max 3 rounds |
-| `/fix-ci` | `/fix-ci [平台]` | No | Track and iteratively fix CI pipeline until green |
-| `/save-plan` | `/save-plan [标题]` | No | Persist plan to `docs/plans/YYYY-MM-DD-slug.md` |
-| `/capture-lesson` | `/capture-lesson [描述]` | **Yes** | Post-mortem after correction/rework, records to `docs/lessons.md` |
-| `/verify-done` | `/verify-done [范围]` | **Yes** | Run tests + senior engineer review before marking done |
-| `/wrap-up` | `/wrap-up [skip-ci]` | No | Session-end orchestrator: sync-docs → lesson → commit → CI |
+| Skill | Pinyin | Usage | Auto-trigger | Description |
+|-------|--------|-------|:---:|-------------|
+| `/commit` | `/tijiao` | `/commit [说明]` | No | Commit + push with Chinese Conventional Commits, optional SemVer tag |
+| `/sync-docs` | `/tongbu` | `/sync-docs [范围]` | **Yes** | Sync docs and memory per DDD + SSOT principles |
+| `/ddd` | — | `/ddd [范围]` | No | Alias for `/sync-docs` (keyboard shortcut) |
+| `/review-plan` | `/shenpi` | `/review-plan [焦点]` | **Yes** | Review plan from UX, frontend, architecture perspectives. Max 3 rounds |
+| `/fix-ci` | `/xiufu` | `/fix-ci [平台]` | No | Track and iteratively fix CI pipeline until green |
+| `/save-plan` | `/baocun` | `/save-plan [标题]` | No | Persist plan to `docs/plans/YYYY-MM-DD-slug.md` |
+| `/capture-lesson` | `/fupan` | `/capture-lesson [描述]` | **Yes** | Post-mortem after correction/rework, records to `docs/lessons.md` |
+| `/verify-done` | `/yanzheng` | `/verify-done [范围]` | **Yes** | Run tests + senior engineer review before marking done |
+| `/wrap-up` | `/shouwei` | `/wrap-up [skip-ci]` | No | Session-end orchestrator: sync-docs → lesson → commit → CI |
+
+> **Pinyin aliases**: 每个技能都有完整拼音别名，中文母语者可直接用拼音调用（如 `/tijiao` = `/commit`）。配合 Tab 补全，输入 `/ti` + Tab 即可。
 
 ### Session Workflow
 
@@ -102,6 +104,8 @@ The skill actively removes 9 types of AI writing fingerprints (em-dash overuse, 
 
 ### Usage
 
+Pinyin alias: `/runse` = `/writing-polish`
+
 ```
 帮我写一篇关于安全生产的讲话稿
 帮我润色这篇文章
@@ -114,7 +118,7 @@ polish this article for me
 
 ```
 writing-polish/
-├── SKILL.md                     # Core workflow (347 lines)
+├── SKILL.md                     # Core workflow (~344 lines)
 └── references/
     ├── writing-methodology.md   # 5 thinking modes + writing methodology
     ├── genre-guide.md           # 7 genre-specific review standards

@@ -1,10 +1,13 @@
 ---
 name: fix-ci
 description: >
-  Use when a CI pipeline has failed or when you need to monitor pipeline status
-  and iteratively fix issues until all pipelines are green.
+  Tracks CI pipeline failures and iteratively fixes issues until all pipelines are green.
+  Supports GitHub Actions, CodeArts, and other CI platforms.
+  迭代修复 CI 直到全绿。
 argument-hint: "[CI 平台或流水线名，如：CodeArts、GitHub Actions]"
 disable-model-invocation: true
+effort: max
+paths: ".github/workflows/**, .gitlab-ci.yml, Jenkinsfile"
 allowed-tools: Bash(git *), Bash(gh *), Bash(curl *), Bash(ssh *)
 ---
 

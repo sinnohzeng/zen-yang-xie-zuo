@@ -1,10 +1,12 @@
 ---
 name: commit
 description: >
-  Use when all changes are ready to be committed and pushed to remote.
-  Handles staging, Chinese conventional commit message, SemVer tagging when applicable, and push.
+  Commits and pushes staged changes with Chinese Conventional Commits and optional SemVer tagging.
+  Handles staging, commit message generation, tagging, and push in one flow.
+  提交代码并推送到远端。
 argument-hint: "[额外说明，如：只提交前端改动]"
 disable-model-invocation: true
+effort: low
 allowed-tools: Bash(git status:*), Bash(git add:*), Bash(git diff:*), Bash(git commit:*), Bash(git tag:*), Bash(git push:*), Bash(git log:*)
 ---
 

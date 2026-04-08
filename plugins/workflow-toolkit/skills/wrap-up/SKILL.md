@@ -1,9 +1,9 @@
 ---
 name: wrap-up
 description: >
-  Use when a coding session is ending and you need to wrap up: sync docs,
-  capture lessons, commit changes, and optionally track CI. Orchestrates
-  the full session-end workflow in sequence.
+  Session-end orchestrator: syncs docs, captures lessons, commits changes,
+  and optionally tracks CI. Runs the full session-end workflow in strict sequence.
+  会话收尾四连。
 argument-hint: "[commit 说明或跳过的步骤，如：skip-ci]"
 disable-model-invocation: true
 effort: max

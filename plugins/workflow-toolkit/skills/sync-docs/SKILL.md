@@ -1,11 +1,18 @@
 ---
 name: sync-docs
 description: >
-  Use when finishing a code change that may have made documentation, memory files, or SSOT docs stale.
-  Ensures code and docs stay in sync per DDD and SSOT principles.
+  Synchronizes documentation, memory files, and SSOT docs after code changes per DDD principles.
+  Ensures code and docs stay in sync with zero drift.
+  同步文档，保持代码与文档零漂移。
 argument-hint: "[关注的文件或模块，如：docs/spec/05-api.md]"
 disable-model-invocation: false
+effort: high
+paths: "docs/**, CLAUDE.md, README.md, AGENTS.md"
 ---
+
+## Context
+
+- Changed files: !`git diff --name-only HEAD`
 
 ## Task
 

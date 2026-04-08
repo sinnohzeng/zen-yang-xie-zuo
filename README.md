@@ -1,171 +1,213 @@
 # Claude Craftkit
 
-Personal Claude Code skill collection. Two plugins, one marketplace.
+**把专业方法论注入 AI —— 让 Claude Code 不只是写得快，而是写得对、改得准。**
 
-| Plugin | Skills | Description |
-|--------|--------|-------------|
-| **writing-polish** | 1 (+1 pinyin) | Professional writing assistance based on 《怎样写作》(任仲然) |
-| **workflow-toolkit** | 9 (+8 pinyin) | Developer workflow skills: commit, doc sync, plan review, CI, and more |
+Claude Craftkit 是一个 Claude Code 技能集，包含两个插件。其中 **writing-polish** 将任仲然 40 年公文写作方法论（《怎样写作》）转化为 AI 可执行的写作与审稿工作流；**workflow-toolkit** 则覆盖开发者日常工作流的全生命周期。
+
+| Plugin | Skills | What it does |
+|--------|:------:|-------------|
+| [**writing-polish**](#writing-polish--写作润色审稿) | 1 (+1 pinyin alias) | 方法论驱动的写作辅助与审稿润色 |
+| [**workflow-toolkit**](#workflow-toolkit--开发工作流) | 9 (+8 pinyin aliases) | Commit、文档同步、计划评审、CI 修复等 |
+
+---
 
 ## Quick Start
 
-### Claude Code (Marketplace)
+**Marketplace 安装（推荐）**
 
 ```bash
-# Register the marketplace (once)
+# 注册 marketplace（一次性）
 claude plugin marketplace add https://github.com/sinnohzeng/claude-craftkit.git
 
-# Install plugins
+# 按需安装
 claude plugin install writing-polish@claude-craftkit
 claude plugin install workflow-toolkit@claude-craftkit
 ```
 
-### Personal short commands (symlink)
+**本地 symlink（短命令）**
 
-For short `/commit` instead of `/workflow-toolkit:commit`:
+用 `/commit` 代替 `/workflow-toolkit:commit`，用 `/runse` 代替 `/writing-polish:writing-polish`：
 
 ```bash
 git clone https://github.com/sinnohzeng/claude-craftkit.git
-cd claude-craftkit
-./setup.sh
+cd claude-craftkit && ./setup.sh
 ```
 
 ---
 
-## Plugin: workflow-toolkit
+## writing-polish · 写作润色审稿
 
-Developer workflow skills for daily Claude Code interactions. Covers the full session lifecycle from planning to wrap-up.
+> "好文稿好文章无疑是写出来的，但更重要的是改出来的。"
+> —— 任仲然《怎样写作》
 
-### Skills
+### 为什么需要这个 Skill
 
-| Skill | Pinyin | Usage | Auto-trigger | Description |
-|-------|--------|-------|:---:|-------------|
-| `/commit` | `/tijiao` | `/commit [说明]` | No | Commit + push with Chinese Conventional Commits, optional SemVer tag |
-| `/sync-docs` | `/tongbu` | `/sync-docs [范围]` | **Yes** | Sync docs and memory per DDD + SSOT principles |
-| `/ddd` | — | `/ddd [范围]` | No | Alias for `/sync-docs` (keyboard shortcut) |
-| `/review-plan` | `/shenpi` | `/review-plan [焦点]` | **Yes** | Review plan from UX, frontend, architecture perspectives. Max 3 rounds |
-| `/fix-ci` | `/xiufu` | `/fix-ci [平台]` | No | Track and iteratively fix CI pipeline until green |
-| `/save-plan` | `/baocun` | `/save-plan [标题]` | No | Persist plan to `docs/plans/YYYY-MM-DD-slug.md` |
-| `/capture-lesson` | `/fupan` | `/capture-lesson [描述]` | **Yes** | Post-mortem after correction/rework, records to `docs/lessons.md` |
-| `/verify-done` | `/yanzheng` | `/verify-done [范围]` | **Yes** | Run tests + senior engineer review before marking done |
-| `/wrap-up` | `/shouwei` | `/wrap-up [skip-ci]` | No | Session-end orchestrator: sync-docs → lesson → commit → CI |
+AI 能写出流畅的文字，但缺乏**审稿的专业判断力**。它不知道什么时候该砍掉一整段「正确的废话」，不知道公文的立意要「以意役法」而非面面俱到，不知道一篇调研报告的生命线是「真实深高新活」六个字。
 
-> **Pinyin aliases**: 每个技能都有完整拼音别名，中文母语者可直接用拼音调用（如 `/tijiao` = `/commit`）。配合 Tab 补全，输入 `/ti` + Tab 即可。
+writing-polish 做的事情，是把《怎样写作》中沉淀的完整方法论体系——从五种思维方式、立意构思方法论、七大文体专属标准，到何其芳十二条修改要则——全部转化为 Claude 可以遵循的结构化工作流。
 
-### Session Workflow
+**不是调 prompt 让 AI「写得更好」，而是给 AI 装上一套专业编辑的审稿操作系统。**
+
+### 两条核心工作流
 
 ```
-Coding session
-│
-├── During work ── Claude auto-triggers /sync-docs, /capture-lesson,
-│                  /verify-done, /review-plan when appropriate
-│
-├── Ad hoc ─────── /commit (push changes)
-│                  /fix-ci (pipeline broke)
-│                  /save-plan (persist plan)
-│                  /ddd (quick doc sync)
-│
-└── Session end ── /wrap-up ──┬── Step 1: sync-docs
-                              ├── Step 2: capture-lesson
-                              ├── Step 3: commit
-                              └── Step 4: fix-ci (skippable)
+用户请求
+  │
+  ├─ "帮我写 / 起草 / 搭提纲"
+  │   └─ 写作辅助工作流
+  │       明确任务 → 立意构思 → 搭建提纲 → 充实内容 → 语言定调
+  │
+  └─ "润色 / 审稿 / 帮我改"
+      └─ 审稿润色工作流
+          通读识别 → 结构性审查（大处着眼）→ 细节打磨（小处着手）→ 输出
 ```
 
----
+**写作辅助**：从空白页到成稿，5 步走完。不是让 AI 自由发挥，而是按方法论约束每一步决策——选什么角度、搭什么结构、用什么材料，都有据可依。
 
-## Plugin: writing-polish
+**审稿润色**：先大后小、先减后加。先审立意主题和结构骨架，再改段落语句，最后抠字词标点。避免「一头扎进细微处，只起到校对员作用」。
 
-> **"好文稿好文章无疑是写出来的，但更重要的是改出来的。"**
-> 任仲然《怎样写作》
+### 方法论体系
 
-A Claude Code skill that transforms decades of professional Chinese government writing methodology (《怎样写作》by 任仲然) into AI-executable writing assistance and revision workflows. Covers 7 genres, supports Markdown, DOCX (with Track Changes), and plain text.
+writing-polish 的知识库不是一个 prompt，而是 6 份结构化参考文档，按需加载：
 
-### Two Core Capabilities
+| 参考文档 | 内容 | 行数 |
+|---------|------|:----:|
+| `writing-methodology.md` | 五种思维方式 + 立意 / 构思 / 提纲 / 材料 / 语言方法论 | ~264 |
+| `genre-guide.md` | 七大文体专属审查标准 | ~364 |
+| `revision-checklist.md` | 何其芳十二条 + 三维系统审查 + 定稿两标准 | ~138 |
+| `logic-and-structure.md` | 逻辑主线审查 + 结构模式审查 | ~119 |
+| `docx-editing-guide.md` | DOCX Track Changes 编辑全指南 | ~340 |
+| `gongwen-format.md` | GB/T 9704 党政公文格式规范 + python-docx 实现 | ~278 |
 
-**Writing Assistance** — From blank page to complete draft via 5 steps: task clarification → conception → outline → content → language tuning.
+> **渐进加载**：skill 描述常驻上下文 → 触发时加载 SKILL.md 核心流程 → 按需读取参考文档。不浪费 token，也不丢关键知识。
 
-**Manuscript Review** — Systematic "big-to-small" revision: theme → structure → paragraphs → words → punctuation. Uses 5 thinking modes, He Qifang's 12-point checklist, and genre-specific standards.
+### 七大文体支持
 
-### Supported Genres
+| 文体 | 核心标准 | 典型场景 |
+|------|---------|---------|
+| 规范性公文 | 政治性、规范性、操作性 | 通知、意见、报告、决议、纪要 |
+| 领导讲话稿 | 「三个掌握」+ 实度/深度/高度/新鲜度/气势 | 会议讲话、动员部署 |
+| 调研报告 | 「真实深高新活」六字标准 | 专题调研、情况报告 |
+| 述职报告 | 「三个取胜」—— 以事实、数据、实绩取胜 | 年度述职、考核述职 |
+| 汇报 / 发言稿 | 四种子类型各有侧重 | 汇报工作、座谈发言、对照检查 |
+| 随笔杂文 | 「真情智善理美」+「有料有趣有度」 | 评论、随笔、杂感 |
+| 自媒体 | 「短快真实新」+ 标题术 + 开头术 | 公众号、头条、短视频文案 |
 
-| Genre | Key Standards |
-|-------|---------------|
-| Official documents (公文) | Political correctness, standardization, operability |
-| Leadership speeches (讲话稿) | "Three masteries" + five dimensions |
-| Research reports (调研报告) | "真实深高新活" six-character standard |
-| Work reports (述职报告) | "Three victories" — facts, data, achievements |
-| Briefings and speeches (汇报/发言稿) | Four sub-types with distinct guidelines |
-| Essays (随笔杂文) | "真情智善理美" + "三有五可" |
-| Social media (自媒体) | "短快真实新" + headlines + opening hooks |
+### AI 痕迹清除
 
-### AI Artifact Removal
+审稿时自动识别并消除 9 类 AI 行文指纹：
 
-The skill actively removes 9 types of AI writing fingerprints (em-dash overuse, parenthetical info-dumping, mechanical enumeration, etc.) to ensure output reads naturally.
+| AI 痕迹 | 表现 | 处理方式 |
+|---------|------|---------|
+| 破折号滥用 | 句中随意插入「——补充说明」 | 改为逗号衔接的完整句 |
+| 括号信息倾倒 | 括号内塞大段补充 | 融入正文，超过五六字必须改写 |
+| 「如果说…那么…」 | AI 最爱的比喻句式 | 改为直接判断式表述 |
+| 过渡词堆砌 | 「总的来看」「值得注意的是」密集出现 | 直接陈述，去掉铺垫 |
+| 冒号标题一刀切 | 所有小节标题都是「XX：YYYYYY」 | 保留最有力的，其余去掉冒号 |
+| 引号过度 | 每个概念词都加引号 | 仅首次引入时加，后续不再加 |
+| 引用堆砌 | 每段以「据XXX数据」开头 | 关键数据保留来源，其余移至句末 |
+| 机械列举 | 大量「一是…二是…三是…」 | 部分改为自然段落叙述 |
+| 逗号到底 | 超长复合句不断句 | 拆分为短句 |
 
-### Usage
+### 使用方式
 
-Pinyin alias: `/runse` = `/writing-polish`
+调用命令：`/writing-polish` 或拼音别名 `/runse`
 
 ```
+# 写作辅助
 帮我写一篇关于安全生产的讲话稿
+搭个提纲，主题是数字化转型
+
+# 审稿润色
 帮我润色这篇文章
 审稿 /path/to/speech.docx
+
+# DOCX 修订模式
 用修订模式帮我改 /path/to/document.docx
+
+# English works too
 polish this article for me
 ```
 
-### Skill Architecture
-
-```
-writing-polish/
-├── SKILL.md                     # Core workflow (~344 lines)
-└── references/
-    ├── writing-methodology.md   # 5 thinking modes + writing methodology
-    ├── genre-guide.md           # 7 genre-specific review standards
-    ├── revision-checklist.md    # He Qifang's 12-point checklist
-    ├── logic-and-structure.md   # Logic + structure review
-    ├── docx-editing-guide.md    # DOCX Track Changes guide
-    └── gongwen-format.md        # GB/T 9704 government document format
-```
-
-Progressive loading: description always in context → SKILL.md on trigger → references on demand.
-
-### Prerequisites (optional)
+### 前置依赖（可选）
 
 ```bash
-# DOCX reading
-brew install pandoc    # macOS
-apt install pandoc     # Ubuntu/Debian
+# DOCX 读取
+brew install pandoc         # macOS
+apt install pandoc          # Ubuntu/Debian
 
-# DOCX editing (Track Changes)
+# DOCX 编辑（Track Changes 修订模式）
 pip install docx-editor python-docx
+```
+
+不安装也能用——纯文本和 Markdown 无需任何依赖，DOCX 依赖仅在需要读取或回写 Word 文档时才用到。
+
+---
+
+## workflow-toolkit · 开发工作流
+
+覆盖 Claude Code 编程会话的全生命周期：从计划评审到会话收尾，9 个技能 + 8 个拼音别名。
+
+### 技能一览
+
+| 技能 | 拼音别名 | 自动触发 | 用途 |
+|------|---------|:---:|------|
+| `/commit` | `/tijiao` | — | 提交 + 推送，Chinese Conventional Commits，可选 SemVer tag |
+| `/sync-docs` | `/tongbu` | **Yes** | 按 DDD + SSOT 原则同步文档和记忆 |
+| `/ddd` | — | — | `/sync-docs` 的快捷别名 |
+| `/review-plan` | `/shenpi` | **Yes** | UX / 前端工程 / 架构三视角评审计划，最多 3 轮 |
+| `/fix-ci` | `/xiufu` | — | 追踪并迭代修复 CI 流水线直到全绿 |
+| `/save-plan` | `/baocun` | — | 持久化计划到 `docs/plans/YYYY-MM-DD-slug.md` |
+| `/capture-lesson` | `/fupan` | **Yes** | 出错后微复盘，记录到 `docs/lessons.md` |
+| `/verify-done` | `/yanzheng` | **Yes** | 跑测试 + 高级工程师视角审查，确认完成 |
+| `/wrap-up` | `/shouwei` | — | 会话收尾四连：sync-docs → lesson → commit → CI |
+
+> **拼音别名**：中文母语者可直接用拼音调用，配合 Tab 补全，输入 `/ti` + Tab 即可触发 `/tijiao`。
+
+### 会话工作流
+
+```
+编程会话
+│
+├─ 工作中 ─── Claude 自动触发 /sync-docs、/capture-lesson、
+│              /verify-done、/review-plan
+│
+├─ 随时用 ─── /commit（提交推送）
+│              /fix-ci（修流水线）
+│              /save-plan（存计划）
+│              /ddd（快速文档同步）
+│
+└─ 收工时 ─── /wrap-up ──┬─ Step 1: sync-docs
+                          ├─ Step 2: capture-lesson
+                          ├─ Step 3: commit
+                          └─ Step 4: fix-ci（可跳过）
 ```
 
 ---
 
-## Cross-Platform Installation
+## 跨平台安装
 
-Both plugins work natively in Claude Code. For other tools, copy the relevant `SKILL.md` and references:
+两个插件原生支持 Claude Code。其他 AI 编程工具可直接复制 `SKILL.md` 和 `references/` 目录：
 
-| Tool | Rule Directory | Format |
-|------|---------------|--------|
-| Claude Web | Customize > Skills (upload ZIP) | Markdown |
-| Claude Code | Plugin or `~/.claude/skills/` | Markdown |
+| 工具 | 规则目录 | 格式 |
+|------|---------|------|
+| Claude Code | Plugin 或 `~/.claude/skills/` | Markdown |
+| Claude Web | Customize → Skills（上传 ZIP） | Markdown |
+| Cursor | `.cursor/rules/` | `.mdc`（Markdown + YAML frontmatter） |
+| Windsurf | `.windsurf/rules/` | Markdown（12K 字符限制） |
 | TRAE | `.trae/rules/` | Markdown |
-| Cursor | `.cursor/rules/` | `.mdc` (Markdown + YAML) |
-| Windsurf | `.windsurf/rules/` | Markdown (12K char limit) |
 | Cline | `.clinerules/` | Markdown |
 | Copilot | `.github/instructions/` | Markdown + YAML |
 | Augment | `.augment/rules/` | Markdown |
 
-## Methodology Source
+## 方法论来源
 
-All writing methodology is from **《怎样写作》** by 任仲然 (Party Building Books Publishing, 2019).
+写作方法论全部来自 **《怎样写作》**（任仲然著，党建读物出版社，2019 年）。任仲然曾任中组部研究室主任，40 余年公文写作与审稿经验凝结为这部方法论体系。
 
 ## License
 
-MIT. Writing methodology copyright belongs to the original author 任仲然.
+MIT. 写作方法论版权归原作者任仲然所有。
 
 ---
 
-> "写作不是文字的简单排列组合，而是思想的创造和精神的奉献。"
+> "写作不是文字的简单排列组合，而是思想的创造和精神的奉献。" —— 任仲然
